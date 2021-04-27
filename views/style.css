@@ -1,0 +1,86 @@
+* { 
+    margin: 0;
+    padding: 0; 
+    box-sizing: border-box; 
+}
+    
+body { 
+    font: 20px Helvetica, Arial; 
+}
+    
+#formDiv { 
+    min-width: 350px;
+    margin-top: 20px;
+    background: rgb(185, 183, 183);
+    padding: 7px; 
+    position: fixed; 
+    bottom: 0; 
+    width: 100%; 
+}
+
+#message, #author { 
+    color: black;
+    padding: 7px; 
+    width: 90%; 
+    border: 1px solid rgb(99, 96, 96);
+    font-size: 20px;
+}
+
+#author{
+    min-width: 75px;
+    width: 10%;
+    border: 2px solid rgb(99, 96, 96);
+}
+    
+form button { 
+    outline: none;
+    border: 0;
+    font-size: 19px;
+    color: white;
+    text-decoration: none;
+    width: 9%; 
+    background: tomato; 
+    padding: 8px; 
+    min-width: 65px;
+}
+    
+#messages { 
+    list-style-type: none; 
+    margin-top: 10px; 
+    padding: 5px;
+    margin-bottom: 100px; 
+}
+
+#messageDiv{
+    margin: 10px;
+}
+#EnteredMessage{
+    white-space: normal;
+}
+h1{
+    min-width: 350px;
+    padding: 2px;
+    background-color: tomato;
+}
+#colorRange::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%; 
+        background: rgb(99, 96, 96);
+        cursor: pointer;
+    }
+
+#colorRange{
+        -webkit-appearance: none;
+        width: 10%;
+        min-width: 90px;
+        height: 15px;
+        border-radius: 5px;  
+        background: #fcfafa;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+}

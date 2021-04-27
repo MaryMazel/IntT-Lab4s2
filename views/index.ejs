@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Socket.IO chat</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1 align="center">Socket.io chat:</h1>
+  <hr>
+  <div id="messages"></div>
+
+  <div id="formDiv">
+    <form action="">
+      <input id="author" type="text" placeholder="Autor:" required>
+      <input type="range" min="0" max="672" id="colorRange" oninput="NickNameColor()" value="0">
+      <input id="message" autocomplete="off" placeholder="Text" required />
+      <button>Send</button>
+    </form>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+  <script>
+    function NickNameColor() {
+      let color = $('#colorRange').val();// get string value of range input
+      color = + color;// string to int
+      switch (true) {
+
+        case (color >= 0 && color <= 112):
+          // case 1 = (121, 9, 9) => (121, 121, 9)
+          color += 9;
+          var colorText = "rgb( 121," + color + ", 9)";
+          break;
+
+        case (color >= 113 && color <= 225):
+          // case 2 = (121, 121, 9) => (9, 121, 9) 
+          color = 234 - color;
+          var colorText = "rgb(" + color + ",121, 9)";
+          break;
+
+        case (color >= 226 && color <= 338):
+          // case 3 = (9, 121, 9) => (9, 121, 121)
+          color -= 217;
+          var colorText = "rgb( 9, 121," + color + ")";
+          break;
+
+        case (color >= 339 && color <= 451):
+          //  case 4 = (9, 121, 121) => (9, 9, 121) 
+          color = 460 - color;
+          var colorText = "rgb(9, " + color + "121)";
+          break;
+
+        case (color >= 452 && color <= 564):
+          //  case 5 = (9, 9, 121) => (121, 9, 121)
+          color -= 443;
+          var colorText = "rgb(" + color + ", 9, 121)";
+          break;
+
+        case (color >= 565 && color <= 677):
+          //  case 6 = (121, 9, 121) => (121, 9, 9)
+          color = 686 - color;
+          var colorText = "rgb(121, 9, " + color + ")";
+          break;
+      }
+
+      $('#author').css("border-color", colorText)// color the border of author box
+      $('#author').css("color", colorText);// color the author text 
+    }
+
+    $(function () {
+      var socket = io();
+      $('form').submit(function (e) {
+
+        e.preventDefault(); // prevents page reloading
+        if ($('#message').val() !== "" && $('#author') !== "") {
+
+          let messageObj = {
+            author: $('#author').val(),
+            message: $('#message').val(),
+            color: $('#author').css("color")
+          }
+          socket.emit('send message', JSON.stringify(messageObj));
+          $('#message').val("");
+          $('html, body').animate({ scrollTop: $(document).height() }, 'fast'); //scrollDown the window
+        }
+        return false;
+      });
+      socket.on('receive message', (messageObj) => {
+
+        messageObj = JSON.parse(messageObj);
+
+        var messageDiv = document.createElement("div");
+
+        var message = document.createElement("span");
+        message.id = "EnteredMessage";
+        message.innerText = messageObj.message;
+        messageDiv.insertAdjacentElement("beforeend", message);
+
+        var author = document.createElement("span");
+        author.id = "EnteredAuthor";
+        author.innerText = messageObj.author + ": ";
+        author.style = "color: " + messageObj.color;
+
+        messageDiv.insertAdjacentElement("afterbegin", author);
+        messageDiv.id = "messageDiv";
+
+
+        document.getElementById("messages").insertAdjacentElement("beforeend", messageDiv);
+      });
+    });
+
+  </script>
+</body>
+
+</html>
